@@ -1,5 +1,5 @@
 # 💫 https://github.com/LinuxBeginnings 💫 #
-# Main default config for sastapc
+# Main default config
 {
   pkgs,
   host,
@@ -23,47 +23,64 @@ in
     ../../modules/local-hardware-clock.nix
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # BOOT Loader Settings (GRUB EFI mode)
+  # BOOT related stuff
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    #kernelPackages = pkgs.linuxPackages_zen; # zen Kernel
+    kernelPackages = pkgs.linuxPackages_latest; # Kernel
 
     kernelParams = [
-      "systemd.mask=dev-tpmrm0.device" # mask that stupid 1.5 mins systemd bug
+      "systemd.mask=dev-tpmrm0.device" # this is to mask that stupid 1.5 mins systemd bug
       "nowatchdog"
+      "modprobe.blacklist=sp5100_tco" # watchdog for AMD
       "modprobe.blacklist=iTCO_wdt" # watchdog for Intel
     ];
+
+    # This is for OBS Virtual Cam Support
+    #kernelModules = [ "v4l2loopback" ];
+    #  extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
     initrd = {
       availableKernelModules = [
         "xhci_pci"
-        "thunderbolt"
+        "ahci"
         "nvme"
         "usb_storage"
+        "usbhid"
         "sd_mod"
       ];
       kernelModules = [ ];
     };
 
-    # Disable systemd-boot
-    loader.systemd-boot.enable = false;
+    # Needed For Some Steam Games
+    #kernel.sysctl = {
+    #  "vm.max_map_count" = 2147483642;
+    #};
 
-    # Enable GRUB in EFI mode
-    loader.grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      useOSProber = true; # Detect Windows & Fedora
-      configurationName = "${host}";
-    };
+    ## BOOT LOADERS: NOTE USE ONLY 1. either systemd or grub
+    # Bootloader SystemD
+    loader.systemd-boot.enable = true;
 
     loader.efi = {
+      #efiSysMountPoint = "/efi"; #this is if you have separate /efi partition
       canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi";
     };
 
     loader.timeout = 5;
+
+    # Bootloader GRUB
+    #loader.grub = {
+    #enable = true;
+    #  devices = [ "nodev" ];
+    #  efiSupport = true;
+    #  gfxmodeBios = "auto";
+    #  memtest86.enable = true;
+    #  extraGrubInstallArgs = [ "--bootloader-id=${host}" ];
+    #  configurationName = "${host}";
+    #	 };
+
+    # Bootloader GRUB theme, configure below
+
+    ## -end of BOOTLOADERS----- ##
 
     # Make /tmp a tmpfs
     tmp = {
@@ -84,25 +101,38 @@ in
     plymouth.enable = true;
   };
 
-  # Driver options (Enable Intel for Intel Iris Xe integrated graphics)
+  # GRUB Bootloader theme. Of course you need to enable GRUB above.. duh! and also, enable it on flake.nix
+  #distro-grub-themes = {
+  #  enable = true;
+  #  theme = "nixos";
+  #};
+
+  # Extra Module Options
   drivers = {
     amdgpu.enable = false;
-    intel.enable = true;
+    intel.enable = false;
     nvidia.enable = false;
-    nvidia-prime.enable = false;
+    nvidia-prime = {
+      enable = false;
+      intelBusID = "";
+      nvidiaBusID = "";
+    };
   };
-  vm.guest-services.enable = false;
+  vm.guest-services.enable = true;
   local.hardware-clock.enable = false;
 
-  # Networking
+  # networking
   networking = {
     networkmanager.enable = true;
     hostName = "${host}";
     timeServers = options.networking.timeServers.default ++ [ "pool.ntp.org" ];
   };
 
-  # Set your time zone automatically based on IP location
-  services.automatic-timezoned.enable = true;
+  # Set your time zone.
+  services.automatic-timezoned.enable = true; # based on IP location
+
+  #https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  #time.timeZone = "Asia/Seoul"; # Set local timezone
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -122,19 +152,12 @@ in
   # Services to start
   services = {
     xserver = {
-      enable = true; # enabled for sddm / Xwayland
+      enable = false;
       xkb = {
         layout = "${keyboardLayout}";
         variant = "";
       };
     };
-
-    # Enable SDDM display manager
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
-    displayManager.ly.enable = lib.mkForce false;
 
     smartd = {
       enable = false;
@@ -149,10 +172,10 @@ in
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      jack.enable = true;
       wireplumber.enable = true;
     };
 
+    #pulseaudio.enable = false; #unstable
     udev.enable = true;
     envfs.enable = true;
     dbus.enable = true;
@@ -165,24 +188,46 @@ in
     libinput.enable = true;
 
     rpcbind.enable = true;
-    nfs.server.enable = false;
+    nfs.server.enable = true;
 
     openssh.enable = true;
     flatpak.enable = true;
 
-    blueman.enable = true;
+    blueman.enable = false;
 
-    fwupd.enable = true;
-    upower.enable = true;
+    #hardware.openrgb.enable = true;
+    #hardware.openrgb.motherboard = "amd";
+
+    fwupd.enable = false;
+
+    upower.enable = false;
 
     gnome.gnome-keyring.enable = true;
 
-    # Enable PostgreSQL database service
-    postgresql = {
-      enable = true;
-      package = pkgs.postgresql_16;
-    };
+    #printing = {
+    #  enable = false;
+    #  drivers = [
+    # pkgs.hplipWithPlugin
+    #  ];
+    #};
+
+    #avahi = {
+    #  enable = true;
+    #  nssmdns4 = true;
+    #  openFirewall = true;
+    #};
+
+    #ipp-usb.enable = true;
+
+    #syncthing = {
+    #  enable = false;
+    #  user = "${username}";
+    #  dataDir = "/home/${username}";
+    #  configDir = "/home/${username}/.config/syncthing";
+    #};
   };
+
+  security.sudo.wheelNeedsPassword = false;
 
   systemd.services.flatpak-repo = {
     path = [ pkgs.flatpak ];
@@ -191,7 +236,7 @@ in
     '';
   };
 
-  # zram swap
+  # zram
   zramSwap = {
     enable = true;
     priority = 100;
@@ -204,6 +249,20 @@ in
     enable = true;
     cpuFreqGovernor = "schedutil";
   };
+
+  #hardware.sane = {
+  #  enable = true;
+  #  extraBackends = [ pkgs.sane-airscan ];
+  #  disabledDefaultBackends = [ "escl" ];
+  #};
+
+  # Extra Logitech Support
+  hardware = {
+    logitech.wireless.enable = false;
+    logitech.wireless.enableGraphical = false;
+  };
+
+  services.pulseaudio.enable = false; # stable branch
 
   # Bluetooth
   hardware = {
@@ -246,7 +305,7 @@ in
     '';
   };
 
-  # Nix configuration
+  # Cachix, Optimization settings and garbage collection automation
   nix = {
     settings = {
       auto-optimise-store = true;
@@ -254,6 +313,8 @@ in
         "nix-command"
         "flakes"
       ];
+      # substituters = ["https://hyprland.cachix.org"]; # re-enable for source builds
+      # trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="]; # re-enable for source builds
     };
     gc = {
       automatic = true;
@@ -262,17 +323,37 @@ in
     };
   };
 
-  # OpenGL / graphics
+  # Virtualization / Containers
+  virtualisation.libvirtd.enable = false;
+  virtualisation.podman = {
+    enable = false;
+    dockerCompat = false;
+    defaultNetwork.settings.dns_enabled = false;
+  };
+
+  # OpenGL
   hardware.graphics = {
     enable = true;
   };
 
   console.keyMap = "${keyboardLayout}";
 
-  # For Electron apps to use Wayland
+  # For Electron apps to use wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # For Hyprland QT Support
   environment.sessionVariables.QML_IMPORT_PATH = "${pkgs.hyprland-qt-support}/lib/qt-6/qml";
 
-  system.stateVersion = "26.05"; # Match target install
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "24.11"; # Did you read the comment?
 }
