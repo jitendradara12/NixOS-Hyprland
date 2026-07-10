@@ -2,6 +2,7 @@
 # Main default config for sastapc
 {
   pkgs,
+  lib,
   host,
   username,
   options,
@@ -23,7 +24,6 @@ in
     ../../modules/local-hardware-clock.nix
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # BOOT Loader Settings (GRUB EFI mode)
   boot = {

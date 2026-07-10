@@ -3,9 +3,7 @@
 {
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
-    google-chrome
-  ];
+  environment.systemPackages = with pkgs; [ ];
 
   programs = {
     steam = {

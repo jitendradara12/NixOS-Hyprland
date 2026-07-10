@@ -31,7 +31,7 @@
     
     # --- System & Custom Utilities ---
     pkgs.nautilus               # GNOME file manager
-    pkgs.pokeget                # Fast Rust-based random Pokemon sprite printer
+    # pkgs.pokeget                # Fast Rust-based random Pokemon sprite printer
     pkgs.cowsay
     pkgs.tree
   ];
@@ -49,9 +49,9 @@
     };
 
     shellAliases = {
-      ls = "eza -a --icons";
-      ll = "eza -al --icons";
-      lt = "eza -a --tree --level=1 --icons";
+      # ls = lib.mk"eza -a --icons";
+      # ll = lib.mkForce"eza -al --icons";
+      # lt = "eza -a --tree --level=1 --icons";
       ff = "nvim $(fzf --preview=\"bat --color=always {}\")";
       y = "yazi";
     };

@@ -30,7 +30,7 @@ in
       xwayland.enable = true;
     };
     zsh.enable = true;
-    firefox.enable = true;
+    firefox.enable = false;
     waybar.enable = false; # started by Hyprland dotfiles. Enabling causes two waybars
     hyprlock.enable = true;
     dconf.enable = true;
@@ -49,25 +49,22 @@ in
       defaultEditor = false;
     };
 
-    thunar.enable = true;
-    thunar.plugins = with pkgs; [
-      xfce4-exo
-      mousepad
-      thunar-archive-plugin
-      thunar-volman
-      tumbler
-    ];
+    # thunar.enable = true;
+    # thunar.plugins = with pkgs; [
+    #   xfce4-exo
+    #   mousepad
+    #   thunar-archive-plugin
+    #   thunar-volman
+    #   tumbler
+    # ];
   };
   nixpkgs.config.allowUnfree = true;
 
-  systemd.user.services.polkit-agent =
+systemd.user.services.polkit-agent =
     let
       polkitAgentScript = pkgs.writeShellScript "polkit-agent" ''
         if [ -x "${lib.getExe pkgs.hyprpolkitagent}" ]; then
           exec "${lib.getExe pkgs.hyprpolkitagent}"
-        fi
-        if [ -x "${lib.getExe' pkgs.mate-polkit "polkit-mate-authentication-agent-1"}" ]; then
-          exec "${lib.getExe' pkgs.mate-polkit "polkit-mate-authentication-agent-1"}"
         fi
         echo "No supported polkit agent found." >&2
         exit 1
@@ -129,7 +126,7 @@ in
     nwg-look
     waypaper
     #waybar   # disabled trying source build for lua and other issues
-    waybar-weather
+    # waybar-weather
     hyprland-qt-support # for hyprland-qt-support
     # customPkgs.hyprmodPkg  # TODO: package hyprland-config, hyprland-monitors, hyprland-schema, hyprland-socket, hyprland-state on PyPI or as local overlays
     socat # Needed for Tak0 scripts
@@ -142,10 +139,11 @@ in
     bc
     brightnessctl
     # To eanble GPU load monitoring in btop
-    (btop.override {
-      cudaSupport = true;
-      rocmSupport = true;
-    })
+    # (btop.override {
+    #   cudaSupport = true;
+    #   rocmSupport = true;
+    # })
+    btop
     bottom
     baobab
     btrfs-progs
@@ -201,7 +199,7 @@ in
     qt5.qtdeclarative
     qt5.qtquickcontrols2
     (mpv.override { scripts = [ mpvScripts.mpris ]; }) # with tray
-    nvtopPackages.full
+    nvtopPackages.intel
     openssl # required by Rainbow borders
     pciutils
     networkmanagerapplet
@@ -236,7 +234,6 @@ in
     xdg-user-dirs # needed for copy.sh
     yt-dlp
 
-    (inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default)
     (inputs.ags.packages.${pkgs.stdenv.hostPlatform.system}.default)
 
     # Utils
@@ -306,9 +303,7 @@ in
     vlc
 
     # Terminals
-    ghostty
     kitty
-    wezterm
   ];
   environment.variables = {
     JAKOS_NIXOS_VERSION = "0.3.3";

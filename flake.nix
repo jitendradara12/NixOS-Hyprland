@@ -49,11 +49,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hyprmod-src = {
       url = "github:BlueManCZ/hyprmod";
       flake = false;
@@ -111,7 +106,6 @@
             ./hosts/${host}/config.nix
             # inputs.distro-grub-themes.nixosModules.${system}.default
             ./modules/overlays.nix # nixpkgs overlays (CMake policy fixes)
-            ./modules/quickshell.nix # quickshell module
             ./modules/packages.nix # Software packages
             # Allow broken packages (temporary fix for broken CUDA in nixos-unstable)
             { nixpkgs.config.allowBroken = true; }
