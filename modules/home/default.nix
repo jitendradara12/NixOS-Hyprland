@@ -3,7 +3,7 @@
   imports = [
     ./terminals/tmux.nix
     #./terminals/ghostty.nix
-    ./editors/nixvim.nix
+    ./editors/nvim.nix
     ./editors/micro.nix
     ./editors/nano.nix
     ./cli/bat.nix
