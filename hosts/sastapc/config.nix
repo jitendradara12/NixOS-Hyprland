@@ -56,6 +56,15 @@ in
       efiSupport = true;
       useOSProber = true; # Detect Windows & Fedora
       configurationName = "${host}";
+      extraEntries = ''
+        menuentry "Fedora Linux (Btrfs subvol=root)" --class fedora --class gnu-linux --class gnu --class os {
+          insmod part_gpt
+          insmod btrfs
+          search --no-floppy --fs-uuid --set=root a40abff3-854e-46d5-9b8c-19a81af460db
+          linux /vmlinuz-7.1.3-200.fc44.x86_64 root=UUID=53bfa245-93cc-4980-b479-c59dda505bbe rootflags=subvol=root ro quiet
+          initrd /initramfs-7.1.3-200.fc44.x86_64.img
+        }
+      '';
     };
 
     loader.efi = {
