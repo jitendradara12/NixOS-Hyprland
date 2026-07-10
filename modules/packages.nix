@@ -25,13 +25,11 @@ in
     hyprland = {
       enable = true;
       withUWSM = true;
-      # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; # hyprland-git
-      # portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland; # xdph-git
       xwayland.enable = true;
     };
     zsh.enable = true;
     firefox.enable = false;
-    waybar.enable = false; # started by Hyprland dotfiles. Enabling causes two waybars
+    waybar.enable = false;
     hyprlock.enable = true;
     dconf.enable = true;
     seahorse.enable = true;
@@ -48,15 +46,6 @@ in
       enable = true;
       defaultEditor = false;
     };
-
-    # thunar.enable = true;
-    # thunar.plugins = with pkgs; [
-    #   xfce4-exo
-    #   mousepad
-    #   thunar-archive-plugin
-    #   thunar-volman
-    #   tumbler
-    # ];
   };
   nixpkgs.config.allowUnfree = true;
 
@@ -95,13 +84,13 @@ systemd.user.services.polkit-agent =
     atop
     go # needed for waybar-weather compile
 
-    # Update flkake script
+    # Update flake script
     (pkgs.writeShellScriptBin "update" ''
       cd ~/NixOS-Hyprland
       nh os switch -u -H ${host} .
     '')
 
-    # Rebuild flkake script
+    # Rebuild flake script
     (pkgs.writeShellScriptBin "rebuild" ''
       cd ~/NixOS-Hyprland
       nh os switch -H ${host} .
@@ -132,13 +121,12 @@ systemd.user.services.polkit-agent =
     socat # Needed for Tak0 scripts
     ddcutil # Needed for ExternalBrightness script
 
-    #  Apps
+    # Apps
     power-profiles-daemon
-    loupe
     appimage-run
     bc
     brightnessctl
-    # To eanble GPU load monitoring in btop
+    # To enable GPU load monitoring in btop
     # (btop.override {
     #   cudaSupport = true;
     #   rocmSupport = true;
@@ -273,7 +261,7 @@ systemd.user.services.polkit-agent =
     # cpuid
     # cpu-x
     cyme # list USB devices - very handy
-    gdu # Dusk usage
+    gdu # Disk usage
     glances # system monitor tool
     gping # Graphical ping tool
     htop # system monitor tool
@@ -295,7 +283,7 @@ systemd.user.services.polkit-agent =
     # Internet
     #  discord  # Move to host pkgs
 
-    # Virtuaizaiton
+    # Virtualization
     virt-viewer
     libvirt
 
