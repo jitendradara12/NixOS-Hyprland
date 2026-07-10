@@ -253,6 +253,10 @@ systemd.user.services.polkit-agent =
     #obs-studio   # move to host pkgs
     zoxide
 
+    # CLI tools
+    opencode
+    os-prober
+
     # Hardware related
     atop # monitoring tool
     bandwhich # network monitor run with sudo

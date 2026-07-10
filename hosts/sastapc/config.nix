@@ -191,13 +191,13 @@ in
     '';
   };
 
-  # zram swap
+# zram swap - optimized for no hibernation
   zramSwap = {
     enable = true;
     priority = 100;
-    memoryPercent = 30;
-    swapDevices = 1;
-    algorithm = "zstd";
+    memoryPercent = 50;      # 50% RAM = optimal for zstd compression
+    swapDevices = 0;         # 0 = auto-detect CPU cores (better parallelism)
+    algorithm = "zstd";      # best compression ratio/speed balance
   };
 
   powerManagement = {
