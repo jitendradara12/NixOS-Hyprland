@@ -49,11 +49,15 @@ in
   };
   nixpkgs.config.allowUnfree = true;
 
-systemd.user.services.polkit-agent =
+  systemd.user.services.polkit-agent =
     let
       polkitAgentScript = pkgs.writeShellScript "polkit-agent" ''
-        if [ -x "${lib.getExe pkgs.hyprpolkitagent}" ]; then
-          exec "${lib.getExe pkgs.hyprpolkitagent}"
+        if [ -x "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent" ]; then
+          exec "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
+        elif [ -x "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1" ]; then
+          exec "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1"
+        elif [ -x "${pkgs.mate-polkit}/libexec/polkit-mate-authentication-agent-1" ]; then
+          exec "${pkgs.mate-polkit}/libexec/polkit-mate-authentication-agent-1"
         fi
         echo "No supported polkit agent found." >&2
         exit 1
