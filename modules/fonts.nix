@@ -32,6 +32,7 @@
       nerd-fonts.caskaydia-cove
       nerd-fonts.caskaydia-mono
       nerd-fonts.code-new-roman
+      nerd-fonts.fantasque-sans-mono
       noto-fonts
       noto-fonts-color-emoji
       noto-fonts-cjk-sans
