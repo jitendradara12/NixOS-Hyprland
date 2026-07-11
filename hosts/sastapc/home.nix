@@ -64,6 +64,7 @@
       # lt = "eza -a --tree --level=1 --icons";
       ff = "nvim $(fzf --preview=\"bat --color=always {}\")";
       y = "yazi";
+      lg = "lazygit";
     };
 
     initContent = ''
