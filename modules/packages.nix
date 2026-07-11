@@ -77,11 +77,11 @@ in
 
   environment.systemPackages = with pkgs; [
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
-    # inputs.antigravity-cli-repo.packages.${pkgs.system}.antigravity-cli
+    # inputs.antigravity-cli-repo.packages.${pkgs.stdenv.hostPlatform.system}.antigravity-cli
 
-    inputs.antigravity-nix.packages.${pkgs.system}.default
-    # inputs.antigravity-nix.packages.${pkgs.system}.google-antigravity-ide
-    # inputs.antigravity-nix.packages.${pkgs.system}.google-antigravity-cli
+    inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    # inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-ide
+    # inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli
 
     waybarPkg
     #waybar

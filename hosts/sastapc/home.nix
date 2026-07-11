@@ -66,7 +66,7 @@
       y = "yazi";
     };
 
-    initExtra = ''
+    initContent = ''
       # Print a random pokemon sprite on shell startup (pokeget)
       if command -v pokeget &> /dev/null; then
         pokeget random --quiet
