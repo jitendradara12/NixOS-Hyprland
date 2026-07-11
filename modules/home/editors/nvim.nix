@@ -33,10 +33,10 @@
 
   # Link the user's actual nvim config from the repository
   # Assumes the config lives in the repo at .config/nvim relative to the flake root
-  xdg.configFile."nvim" = {
-    source = ../.. + "/.config/nvim";
-    recursive = true;
-  };
+  # xdg.configFile."nvim" = {
+  #   source = ../.. + "/.config/nvim";
+  #   recursive = true;
+  # };
 
   # Ensure neovim is the default editor
   home.sessionVariables = {
