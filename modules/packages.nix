@@ -9,7 +9,7 @@
   inputs,
   host,
   lib,
-  customPkgs ? {},
+  customPkgs ? { },
   ...
 }:
 let
@@ -82,6 +82,8 @@ in
     inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     # inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-ide
     # inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli
+
+    telegram-desktop
 
     waybarPkg
     #waybar
@@ -306,6 +308,8 @@ in
     # Terminals
     kitty
   ];
+
+  programs.kdeconnect.enable = true;
   environment.variables = {
     JAKOS_NIXOS_VERSION = "0.3.3";
     JAKOS = "true";
