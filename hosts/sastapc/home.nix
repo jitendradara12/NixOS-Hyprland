@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # 1. Custom User Packages (excluding those already installed globally by KoolDots)
@@ -6,31 +11,34 @@
     # --- Development & Languages ---
     pkgs.gdb
     pkgs.clang-tools
+    pkgs.gh
     pkgs.hugo
     pkgs.pnpm
     pkgs.protobuf
-    pkgs.pandoc                 # Markdown document converter (pandoc-cli)
+    pkgs.pandoc # Markdown document converter (pandoc-cli)
     pkgs.ruby
     pkgs.rustc
     pkgs.git-filter-repo
     pkgs.mercurial
-    (pkgs.python3.withPackages (ps: with ps; [
-      django
-      pip
-      black                     # Python code formatter
-    ]))
+    (pkgs.python3.withPackages (
+      ps: with ps; [
+        django
+        pip
+        black # Python code formatter
+      ]
+    ))
 
     # --- Extra Hyprland / Wayland Ecosystem ---
-    pkgs.hyprsunset             # Blue light filter at compositor level
-    pkgs.pyprland               # Plugins/extensions for Hyprland layouts
+    pkgs.hyprsunset # Blue light filter at compositor level
+    pkgs.pyprland # Plugins/extensions for Hyprland layouts
 
     # --- Applications & Media ---
-    pkgs.gimp                   # Image editor
-    pkgs.obs-studio             # Screen recorder/streamer
-    pkgs.qbittorrent            # Torrent client
-    
+    pkgs.gimp # Image editor
+    pkgs.obs-studio # Screen recorder/streamer
+    pkgs.qbittorrent # Torrent client
+
     # --- System & Custom Utilities ---
-    pkgs.nautilus               # GNOME file manager
+    pkgs.nautilus # GNOME file manager
     # pkgs.pokeget                # Fast Rust-based random Pokemon sprite printer
     pkgs.cowsay
     pkgs.tree
