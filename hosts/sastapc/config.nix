@@ -152,6 +152,7 @@ in
 
     gvfs.enable = true;
     tumbler.enable = true;
+    udisks2.enable = true;
 
     pipewire = {
       enable = true;
@@ -246,7 +247,18 @@ in
          {
            return polkit.Result.YES;
          }
-      })
+       });
+
+       // Allow wheel group to mount system and external drives via udisks2 (Windows/Fedora drives in Nautilus)
+       polkit.addRule(function(action, subject) {
+         if (
+           subject.isInGroup("wheel")
+             && action.id.indexOf("org.freedesktop.udisks2.") === 0
+         )
+         {
+           return polkit.Result.YES;
+         }
+       });
     '';
   };
   security.pam.services.swaylock = {
@@ -282,6 +294,9 @@ in
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # For Hyprland QT Support
   environment.sessionVariables.QML_IMPORT_PATH = "${pkgs.hyprland-qt-support}/lib/qt-6/qml";
+
+  # Enable nix-ld to run unpatched dynamic binaries (critical for Mason/VS Code LSPs)
+  programs.nix-ld.enable = true;
 
   system.stateVersion = "26.05"; # Match target install
 }

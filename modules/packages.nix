@@ -190,6 +190,7 @@ systemd.user.services.polkit-agent =
     nvtopPackages.intel
     openssl # required by Rainbow borders
     pciutils
+    intel-gpu-tools # For monitoring Intel Iris Xe GPU
     networkmanagerapplet
     pamixer
     pavucontrol
