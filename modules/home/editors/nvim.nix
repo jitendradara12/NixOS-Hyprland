@@ -26,7 +26,6 @@
     toilet
     # Language servers and tools
     nodejs
-    python3
     # For treesitter
     tree-sitter
   ];
