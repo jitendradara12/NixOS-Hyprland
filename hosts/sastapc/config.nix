@@ -206,7 +206,7 @@ in
     enable = true;
     priority = 100;
     memoryPercent = 50;      # 50% RAM = optimal for zstd compression
-    swapDevices = 0;         # 0 = auto-detect CPU cores (better parallelism)
+    swapDevices = 1;         # number of zram devices (1 is recommended)
     algorithm = "zstd";      # best compression ratio/speed balance
   };
 
