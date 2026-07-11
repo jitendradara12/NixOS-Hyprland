@@ -75,6 +75,10 @@ systemd.user.services.polkit-agent =
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
     # inputs.antigravity-cli-repo.packages.${pkgs.system}.antigravity-cli
 
+    inputs.antigravity-nix.packages.${pkgs.system}.default
+    # inputs.antigravity-nix.packages.${pkgs.system}.google-antigravity-ide
+    # inputs.antigravity-nix.packages.${pkgs.system}.google-antigravity-cli
+
     waybarPkg
     #waybar
     alejandra
