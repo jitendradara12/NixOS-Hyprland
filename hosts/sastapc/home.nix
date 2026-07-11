@@ -34,6 +34,8 @@
     # pkgs.pokeget                # Fast Rust-based random Pokemon sprite printer
     pkgs.cowsay
     pkgs.tree
+    pkgs.zsh-autosuggestions
+    pkgs.zsh-syntax-highlighting
   ];
 
   # 2. Zsh Shell configuration (retaining your prompt and aliases)
@@ -87,6 +89,11 @@
 
       autoload -U add-zsh-hook
       add-zsh-hook precmd theme_precmd
+
+      # Source custom zshrc from Hyprland-Dots
+      if [ -f /home/sastauser/Hyprland-Dots/config/zshrc ]; then
+        source /home/sastauser/Hyprland-Dots/config/zshrc
+      fi
     '';
   };
 
