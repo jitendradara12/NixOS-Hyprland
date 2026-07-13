@@ -307,6 +307,10 @@ in
 
     # Terminals
     kitty
+
+    #zed (just for ai)
+    # zed #this is not the zed we know
+    zed-editor
   ];
 
   programs.kdeconnect.enable = true;
