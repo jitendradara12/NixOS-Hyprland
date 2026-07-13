@@ -311,6 +311,9 @@ in
     #zed (just for ai)
     # zed #this is not the zed we know
     zed-editor
+    kaggle
+    #python package manager: uv
+    uv
   ];
 
   programs.kdeconnect.enable = true;
