@@ -14,6 +14,7 @@
   # Catppuccin theme configuration
   catppuccin.enable = true;
   catppuccin.autoEnable = true;
+  catppuccin.cache.enable = true;
 
   # Install themes/cursors that we reference
   environment.systemPackages = with pkgs; [
