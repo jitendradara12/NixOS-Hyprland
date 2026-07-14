@@ -314,6 +314,9 @@ in
     kaggle
     #python package manager: uv
     uv
+
+    #camera
+    guvcview
   ];
 
   programs.kdeconnect.enable = true;
