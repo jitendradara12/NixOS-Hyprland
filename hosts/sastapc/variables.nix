@@ -7,7 +7,7 @@
   extraMonitorSettings = "";
 
   # Waybar Settings
-  clock24h = true;
+  clock24h = false;
 
   # Program Options
   browser = "google-chrome-stable"; # Set Default Browser (google-chrome-stable for google-chrome)

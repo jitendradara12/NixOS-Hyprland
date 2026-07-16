@@ -169,7 +169,10 @@ in
     gcc
     git
     glib # for gsettings to work
-    #google-chrome   # moving to host pkgs
+
+    #pdf viewer
+    sioyek
+    google-chrome
     gnome-system-monitor
     gsettings-qt
     fastfetch
