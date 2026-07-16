@@ -55,7 +55,13 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" ];
+      plugins = [
+        "git"
+        "starship"
+        "sudo" # esc twice to prepend
+        "history-substring-search"
+        "python"
+      ];
     };
 
     shellAliases = {
