@@ -52,6 +52,13 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    defaultKeymap = "viins";
+
+    history = {
+      size = 10000;
+      save = 10000;
+      path = "$HOME/.zsh_history";
+    };
 
     oh-my-zsh = {
       enable = true;
@@ -104,6 +111,14 @@
 
       autoload -U add-zsh-hook
       add-zsh-hook precmd theme_precmd
+
+      # Envman & local bin env settings
+      if [ -f "$HOME/.local/share/../bin/env" ]; then
+        . "$HOME/.local/share/../bin/env"
+      fi
+
+      # Generated for envman. Do not edit.
+      [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
       # Source custom zshrc from Hyprland-Dots
       if [ -f /home/sastauser/Hyprland-Dots/config/zshrc ]; then

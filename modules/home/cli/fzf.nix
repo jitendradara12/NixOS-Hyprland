@@ -9,7 +9,7 @@ in
 {
   programs.fzf = {
     enable = true;
-    enableZshIntegration = false;
+    enableZshIntegration = true;
     enableBashIntegration = false;
     enableFishIntegration = false;
     colors = lib.mkForce {
