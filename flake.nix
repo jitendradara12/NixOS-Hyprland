@@ -86,15 +86,15 @@
           allowUnfree = true;
         };
       };
-      waybarWeatherPkg = pkgs.callPackage ./pkgs/waybar-weather.nix { };
-      hyprlandBindings = pkgs.callPackage ./pkgs/hyprland-python-bindings.nix { };
-      hyprmodPkg = pkgs.callPackage ./pkgs/hyprmod.nix { 
+      waybarWeatherPkg = if builtins.pathExists ./pkgs/waybar-weather.nix then pkgs.callPackage ./pkgs/waybar-weather.nix { } else null;
+      hyprlandBindings = if builtins.pathExists ./pkgs/hyprland-python-bindings.nix then pkgs.callPackage ./pkgs/hyprland-python-bindings.nix { } else null;
+      hyprmodPkg = if builtins.pathExists ./pkgs/hyprmod.nix then pkgs.callPackage ./pkgs/hyprmod.nix { 
         hyprmodSrc = hyprmod-src;
         inherit hyprlandBindings;
-      };
+      } else null;
     in
     {
-      packages.${system} = {
+      packages.${system} = pkgs.lib.filterAttrs (_: v: v != null) {
         waybar-weather = waybarWeatherPkg;
         hyprmod = hyprmodPkg;
       };
