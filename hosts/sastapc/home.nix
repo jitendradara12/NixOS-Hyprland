@@ -42,8 +42,6 @@
     # pkgs.pokeget                # Fast Rust-based random Pokemon sprite printer
     pkgs.cowsay
     pkgs.tree
-    pkgs.zsh-autosuggestions
-    pkgs.zsh-syntax-highlighting
   ];
 
   # 2. Zsh Shell configuration (retaining your prompt and aliases)
@@ -121,8 +119,8 @@
       [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
       # Source custom zshrc from Hyprland-Dots
-      if [ -f /home/sastauser/Hyprland-Dots/config/zshrc ]; then
-        source /home/sastauser/Hyprland-Dots/config/zshrc
+      if [ -f "${config.home.homeDirectory}/Hyprland-Dots/config/zshrc" ]; then
+        source "${config.home.homeDirectory}/Hyprland-Dots/config/zshrc"
       fi
     '';
   };
