@@ -13,10 +13,7 @@
   ...
 }:
 let
-  waybarPkg = inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar.overrideAttrs (old: {
-    doCheck = false;
-    mesonFlags = (old.mesonFlags or [ ]) ++ [ "-Dtests=disabled" ];
-  });
+  waybarPkg = pkgs.waybar;
 in
 {
   services.power-profiles-daemon.enable = true;
@@ -82,6 +79,9 @@ in
     inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     # inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-ide
     # inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.google-antigravity-cli
+
+    claude-code
+    codex
 
     telegram-desktop
 
