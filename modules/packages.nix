@@ -173,6 +173,7 @@ in
     #pdf viewer
     sioyek
     google-chrome
+    google-cloud-sdk
     gnome-system-monitor
     gsettings-qt
     fastfetch
