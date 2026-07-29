@@ -319,6 +319,9 @@ in
     #python package manager: uv
     uv
 
+    flutter
+    dart-bin
+
     #camera
     guvcview
   ];
