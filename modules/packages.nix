@@ -319,6 +319,7 @@ in
     #python package manager: uv
     uv
 
+    tailscale
     flutter
     dart-bin
 
