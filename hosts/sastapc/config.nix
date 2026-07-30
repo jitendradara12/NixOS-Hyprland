@@ -24,7 +24,6 @@ in
     ../../modules/local-hardware-clock.nix
   ];
 
-
   # BOOT Loader Settings (GRUB EFI mode)
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -201,13 +200,13 @@ in
     '';
   };
 
-# zram swap - optimized for no hibernation
+  # zram swap - optimized for no hibernation
   zramSwap = {
     enable = true;
     priority = 100;
-    memoryPercent = 50;      # 50% RAM = optimal for zstd compression
-    swapDevices = 1;         # number of zram devices (1 is recommended)
-    algorithm = "zstd";      # best compression ratio/speed balance
+    memoryPercent = 50; # 50% RAM = optimal for zstd compression
+    swapDevices = 1; # number of zram devices (1 is recommended)
+    algorithm = "zstd"; # best compression ratio/speed balance
   };
 
   powerManagement = {
@@ -234,31 +233,31 @@ in
     rtkit.enable = true;
     polkit.enable = true;
     polkit.extraConfig = ''
-       polkit.addRule(function(action, subject) {
-         if (
-           subject.isInGroup("users")
-             && (
-               action.id == "org.freedesktop.login1.reboot" ||
-               action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
-               action.id == "org.freedesktop.login1.power-off" ||
-               action.id == "org.freedesktop.login1.power-off-multiple-sessions"
-             )
-           )
-         {
-           return polkit.Result.YES;
-         }
-       });
+      polkit.addRule(function(action, subject) {
+        if (
+          subject.isInGroup("users")
+            && (
+              action.id == "org.freedesktop.login1.reboot" ||
+              action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
+              action.id == "org.freedesktop.login1.power-off" ||
+              action.id == "org.freedesktop.login1.power-off-multiple-sessions"
+            )
+          )
+        {
+          return polkit.Result.YES;
+        }
+      });
 
-       // Allow wheel group to mount system and external drives via udisks2 (Windows/Fedora drives in Nautilus)
-       polkit.addRule(function(action, subject) {
-         if (
-           subject.isInGroup("wheel")
-             && action.id.indexOf("org.freedesktop.udisks2.") === 0
-         )
-         {
-           return polkit.Result.YES;
-         }
-       });
+      // Allow wheel group to mount system and external drives via udisks2 (Windows/Fedora drives in Nautilus)
+      polkit.addRule(function(action, subject) {
+        if (
+          subject.isInGroup("wheel")
+            && action.id.indexOf("org.freedesktop.udisks2.") === 0
+        )
+        {
+          return polkit.Result.YES;
+        }
+      });
     '';
   };
   security.pam.services.swaylock = {
@@ -319,6 +318,6 @@ in
 
   # Enable nix-ld to run unpatched dynamic binaries (critical for Mason/VS Code LSPs)
   programs.nix-ld.enable = true;
-
+  services.tailscale.enable = true;
   system.stateVersion = "26.05"; # Match target install
 }
