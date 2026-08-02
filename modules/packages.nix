@@ -184,7 +184,6 @@ in
     gnumake
     grim
     grimblast
-    gtk-engine-murrine # for gtk themes
     inxi
     imagemagick
     killall
