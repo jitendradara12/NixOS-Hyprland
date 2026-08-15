@@ -23,7 +23,7 @@
       material-symbols
       maple-mono.NF
       meslo-lg
-      jetbrains-mono
+      # jetbrains-mono
       material-icons
       maple-mono.NF
       minecraftia
