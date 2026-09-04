@@ -120,6 +120,7 @@
             ./modules/ly.nix # ly greater with matrix animation
             ./modules/nh.nix # nix helper
             inputs.catppuccin.nixosModules.catppuccin
+            ./modules/goodix/default.nix
             # Integrate Home Manager as a NixOS module
             inputs.home-manager.nixosModules.home-manager
             {
