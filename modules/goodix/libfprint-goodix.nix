@@ -26,8 +26,8 @@ stdenv.mkDerivation rec {
       fetchFromGitHub {
         owner = "jitendradara12";
         repo = "libfprint";
-        rev = "2cdcd4e683b41a7265210269e817b1fc8b57f582";
-        hash = "sha256-LBPKtl+ygaowr49vi6Cjn8bkEGY0lZTXQRLvfYHslzw=";
+        rev = "a5029fea1860265ae4e22c2d286ea48e3c8f62d6";
+        hash = "sha256-19M2SBYjJTtUPqWq6NYr7fsS7hEADPGGPlLEgipiXdE=";
       };
 
   postPatch = ''
