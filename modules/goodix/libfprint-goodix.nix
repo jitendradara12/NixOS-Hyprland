@@ -13,26 +13,35 @@
   nss,
   nspr,
   gobject-introspection,
-  libfprintSrc ? null,
 }:
 stdenv.mkDerivation rec {
   pname = "libfprint-goodix";
-  version = "1.94.5-goodixtls";
+  version = "1.94.5-goodixtls-5e0a";
 
+  # Single base, enforced by construction: no src override parameter (an
+  # override could silently swap the base and break the unified patch,
+  # which creates goodix5e0a.c as a new file). This fetch MUST match the
+  # rev in ~/code/temp/goodix/libfprint-goodix.nix (machine-checked by
+  # test_f22 in that repo).
   src =
-    if libfprintSrc != null
-    then libfprintSrc
-    else
-      fetchFromGitHub {
-        owner = "jitendradara12";
-        repo = "libfprint";
-        rev = "a5029fea1860265ae4e22c2d286ea48e3c8f62d6";
-        hash = "sha256-19M2SBYjJTtUPqWq6NYr7fsS7hEADPGGPlLEgipiXdE=";
-      };
+    fetchFromGitHub {
+      owner = "goodix-fp-linux-dev";
+      repo = "libfprint";
+      rev = "c343b6934e40dcd40a5f9e3095810d98f1175a4d";
+      hash = "sha256-6llzCeVOtv0HRaNdB8mMzZCA8RBZtGkSCErsXwKE/vk=";
+    };
+
+  patches = [
+    ./0001-Add-driver-support-for-Goodix-27c6-5e0a.patch
+  ];
 
   postPatch = ''
-    sed -i "s/1.94.5/1.94.9/" meson.build
-    sed -i "s/FP_DEVICE_RETRY_REMOVE_FINGER,/FP_DEVICE_RETRY_REMOVE_FINGER,\n  FP_DEVICE_RETRY_TOO_FAST,/" libfprint/fp-device.h
+    if ! grep -q "1.94.9" meson.build; then
+      sed -i "s/1.94.5/1.94.9/" meson.build
+    fi
+    if ! grep -q "FP_DEVICE_RETRY_TOO_FAST" libfprint/fp-device.h; then
+      sed -i "s/FP_DEVICE_RETRY_REMOVE_FINGER,/FP_DEVICE_RETRY_REMOVE_FINGER,\n  FP_DEVICE_RETRY_TOO_FAST,/" libfprint/fp-device.h
+    fi
   '';
 
   nativeBuildInputs = [
