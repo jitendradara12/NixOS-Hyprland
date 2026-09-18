@@ -24,6 +24,10 @@
 
     alejandra.url = "github:kamadorueda/alejandra";
 
+    # Goodix 27c6:5e0a fingerprint driver (flake, replaces local modules/goodix mirror)
+    goodix.url = "github:jitendradara12/goodix-5e0a";
+    goodix.inputs.nixpkgs.follows = "nixpkgs";
+
     # Replacement for SWWW - which is archived
     awww.url = "git+https://codeberg.org/LGFae/awww";
 

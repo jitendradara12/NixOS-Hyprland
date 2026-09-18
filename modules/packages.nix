@@ -17,6 +17,11 @@ let
 in
 {
   services.power-profiles-daemon.enable = true;
+  # programs.hyprlock.enable below forces services.hypridle.enable on, which
+  # starts a second hypridle via systemd user scope alongside the
+  # Hyprland-Dots exec-once launcher. Force it off; exec-once stays the
+  # single launcher (hypridle binary itself remains in systemPackages).
+  services.hypridle.enable = lib.mkForce false;
 
   programs = {
     hyprland = {
