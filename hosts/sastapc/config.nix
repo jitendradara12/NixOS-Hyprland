@@ -7,11 +7,9 @@
   username,
   options,
   ...
-}:
-let
+}: let
   inherit (import ./variables.nix) keyboardLayout;
-in
-{
+in {
   imports = [
     ./hardware.nix
     ./users.nix
@@ -42,7 +40,7 @@ in
         "usb_storage"
         "sd_mod"
       ];
-      kernelModules = [ ];
+      kernelModules = [];
     };
 
     # Disable systemd-boot
@@ -106,7 +104,7 @@ in
   networking = {
     networkmanager.enable = true;
     hostName = "${host}";
-    timeServers = options.networking.timeServers.default ++ [ "pool.ntp.org" ];
+    timeServers = options.networking.timeServers.default ++ ["pool.ntp.org"];
   };
 
   # Set your time zone automatically based on IP location
@@ -194,7 +192,7 @@ in
   };
 
   systemd.services.flatpak-repo = {
-    path = [ pkgs.flatpak ];
+    path = [pkgs.flatpak];
     script = ''
       flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     '';
@@ -265,6 +263,14 @@ in
       auth include login
     '';
   };
+  # Disable PAM fprint for hyprlock so its native parallel fingerprint auth works
+  security.pam.services.hyprlock.fprintAuth = lib.mkForce false;
+  # Disable PAM fprint for SDDM and login so SDDM unlocks instantly with password and keyring
+  security.pam.services.sddm.fprintAuth = lib.mkForce false;
+  security.pam.services.login.fprintAuth = lib.mkForce false;
+  # Enable fprint for polkit-1 and sudo
+  security.pam.services.polkit-1.fprintAuth = true;
+  security.pam.services.sudo.fprintAuth = true;
 
   # Nix configuration
   nix = {
@@ -300,7 +306,7 @@ in
     };
     optimise = {
       automatic = true;
-      dates = [ "weekly" ];
+      dates = ["weekly"];
     };
   };
 

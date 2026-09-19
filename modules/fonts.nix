@@ -13,7 +13,6 @@
       fira-code-symbols
       font-awesome
       hackgen-nf-font
-      iosevka
       nerd-fonts.iosevka-term
       nerd-fonts.iosevka-term-slab
       ibm-plex
