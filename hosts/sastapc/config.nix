@@ -265,12 +265,31 @@ in {
   };
   # Disable PAM fprint for hyprlock so its native parallel fingerprint auth works
   security.pam.services.hyprlock.fprintAuth = lib.mkForce false;
-  # Disable PAM fprint for SDDM and login so SDDM unlocks instantly with password and keyring
-  security.pam.services.sddm.fprintAuth = lib.mkForce false;
+  # Custom PAM configuration for SDDM to swap password and fingerprint order
+  # This allows pressing Enter on an empty password to activate fingerprint,
+  # or typing a password and pressing Enter to login instantly without a 30s delay.
+  security.pam.services.sddm.text = ''
+    # Account management.
+    account include login
+
+    # Authentication management.
+    auth sufficient ${pkgs.linux-pam}/lib/security/pam_unix.so likeauth nullok try_first_pass
+    auth sufficient ${pkgs.fprintd}/lib/security/pam_fprintd.so
+    auth include login
+
+    # Password management.
+    password include login
+
+    # Session management.
+    session include login
+  '';
   security.pam.services.login.fprintAuth = lib.mkForce false;
   # Enable fprint for polkit-1 and sudo
   security.pam.services.polkit-1.fprintAuth = true;
   security.pam.services.sudo.fprintAuth = true;
+  # Place fingerprint auth after password auth for sudo (order 11800 > unix order 11700)
+  # This allows typing password + Enter for instant password auth, or Enter on blank to use fingerprint.
+  security.pam.services.sudo.rules.auth.fprintd.order = 11800;
 
   # Nix configuration
   nix = {
