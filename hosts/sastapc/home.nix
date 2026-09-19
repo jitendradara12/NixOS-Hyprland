@@ -122,7 +122,26 @@
       if [ -f "${config.home.homeDirectory}/Hyprland-Dots/config/zshrc" ]; then
         source "${config.home.homeDirectory}/Hyprland-Dots/config/zshrc"
       fi
+
+      # Vi editing mode
+      set -o vi
     '';
+  };
+
+  # Bash Shell configuration
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      set -o vi
+    '';
+  };
+
+  # Readline configuration (sets vi mode for readline apps like bash, python, gdb)
+  programs.readline = {
+    enable = true;
+    variables = {
+      editing-mode = "vi";
+    };
   };
 
   # 3. Yazi file manager configuration

@@ -20,4 +20,9 @@
 
   # Make sure zsh is registered as a system shell
   environment.shells = with pkgs; [ zsh ];
+
+  # Enable vi editing mode by default for interactive shells
+  environment.interactiveShellInit = ''
+    set -o vi
+  '';
 }
