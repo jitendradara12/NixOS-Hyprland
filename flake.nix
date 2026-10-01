@@ -24,8 +24,9 @@
 
     alejandra.url = "github:kamadorueda/alejandra";
 
-    # Goodix 27c6:5e0a fingerprint driver (flake, replaces local modules/goodix mirror)
+    # Goodix 27c6:5e0a fingerprint driver (mine)
     goodix.url = "github:jitendradara12/goodix-5e0a";
+
     goodix.inputs.nixpkgs.follows = "nixpkgs";
 
     # Replacement for SWWW - which is archived
@@ -77,9 +78,14 @@
       system = "x86_64-linux";
 
       # Dynamically import local settings if they exist to keep upstream merges clean
-      localSettings = if builtins.pathExists ./local.nix
-                      then import ./local.nix
-                      else { host = "jak-hl"; username = "dwilliams"; };
+      localSettings =
+        if builtins.pathExists ./local.nix then
+          import ./local.nix
+        else
+          {
+            host = "jak-hl";
+            username = "dwilliams";
+          };
 
       host = localSettings.host;
       username = localSettings.username;
@@ -90,12 +96,24 @@
           allowUnfree = true;
         };
       };
-      waybarWeatherPkg = if builtins.pathExists ./pkgs/waybar-weather.nix then pkgs.callPackage ./pkgs/waybar-weather.nix { } else null;
-      hyprlandBindings = if builtins.pathExists ./pkgs/hyprland-python-bindings.nix then pkgs.callPackage ./pkgs/hyprland-python-bindings.nix { } else null;
-      hyprmodPkg = if builtins.pathExists ./pkgs/hyprmod.nix then pkgs.callPackage ./pkgs/hyprmod.nix { 
-        hyprmodSrc = hyprmod-src;
-        inherit hyprlandBindings;
-      } else null;
+      waybarWeatherPkg =
+        if builtins.pathExists ./pkgs/waybar-weather.nix then
+          pkgs.callPackage ./pkgs/waybar-weather.nix { }
+        else
+          null;
+      hyprlandBindings =
+        if builtins.pathExists ./pkgs/hyprland-python-bindings.nix then
+          pkgs.callPackage ./pkgs/hyprland-python-bindings.nix { }
+        else
+          null;
+      hyprmodPkg =
+        if builtins.pathExists ./pkgs/hyprmod.nix then
+          pkgs.callPackage ./pkgs/hyprmod.nix {
+            hyprmodSrc = hyprmod-src;
+            inherit hyprlandBindings;
+          }
+        else
+          null;
     in
     {
       packages.${system} = pkgs.lib.filterAttrs (_: v: v != null) {
@@ -150,7 +168,8 @@
                 # Import your copied HM modules, plus host-specific configurations if they exist
                 imports = [
                   ./modules/home/default.nix
-                ] ++ (if builtins.pathExists ./hosts/${host}/home.nix then [ ./hosts/${host}/home.nix ] else []);
+                ]
+                ++ (if builtins.pathExists ./hosts/${host}/home.nix then [ ./hosts/${host}/home.nix ] else [ ]);
               };
             }
           ];
